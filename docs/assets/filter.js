@@ -1,9 +1,19 @@
 function filterList() {
-    $("tr.datarow").hide();
     let plevel = $("#level").val();
     let bounty = $("#bounty").val();
-    let selector = "tr.bounty-" + bounty + ".plevel-" + plevel;
-    console.log(selector);
+    
+    var selector = "";
+    if (plevel !== "") {
+        selector += (".plevel-" + plevel);
+    }
+    if (bounty !== "") {
+        selector += (".bounty-" + bounty);
+    }
+    if (selector === "") {
+        $("tr.datarow").show();
+        return;
+    }
+    $("tr.datarow").hide();
     $(selector).show();
 }
 
