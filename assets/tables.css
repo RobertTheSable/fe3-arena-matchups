@@ -1,0 +1,14 @@
+body {
+  background-color: linen;
+}
+table, td, th {
+  border: 1px solid;
+  border-collapse: collapse;
+}
+table.inputtable, .inputtable > tbody > tr > td{
+  border: none !important;
+}
+
+.rngdata {
+  display: none;
+}

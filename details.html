@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Arena Matchup Selection Details</title><link rel="stylesheet" href="assets/tables.css">
+</head>
+<body>
+<h1>Arena Matchup Selection Details</h1>
+<p><a href="./index.html">Back to Top</a></p>
+<h2>The RNG</h2>
+<p>FE3's arena uses an RNG function at $808726 to generate values for its RNG. This function cycles two values($046B, $046C) each time it is called. One is incremented by 55 each time, the other by 143.</p>
+<p>
+This function is used in various places, but I only know about the arena's usage. The arena calls this function once and then uses the second value($046C) to select the enemy class from a list of options.</p>
+<p>
+The function is called again, and the updated second RNG value($046C) is used to calculate the enemy's level advantage against the player.
+Enemies can be up to 4 levels higher than the unit entering the arena.</p>
+<p>It is difficult to predict the state of the RNG when entering the arena.
+However, because the RNG state is incremented and used twice, it is possible to narrow down the list of possible matches based on the player's level and final bounty calculation.
+</p>
+<h2>Bounty Calculation</h2>
+<p>
+The bounty calculation is as follows:
+</p>
+<p>
+<table>
+<tr><td>
+bounty = (base_class_bounty + (enemy_level - 1) + level_difference_bonus) &times; 10
+</td></tr>
+</table>
+</p>
+<p>
+The level_difference_bonus is the difference &times; 3. <br>
+Rather than being calculated on the fly, it's loaded form a lookup table at $87A3EC.
+</p>
+<table>
+<tr><th>Difference</th><th>Bonus</th></tr>
+<tr><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>3</td></tr>
+<tr><td>2</td><td>6</td></tr>
+<tr><td>3</td><td>12</td></tr>
+<tr><td>4</td><td>24</td></tr>
+</table>
+<p>
+A slight quirk of this system is caused by levels being capped to 20.<br>
+Since the level difference bonus is lower, entering the arena with a level 20 unit may result in a bounty that is lower than entering with a level 19 unit.
+</p>
+
+<h2>Opponent Lists</h2>
+<p>The table containing the addresses for the list of possible oponnents for each class is stored at $8B99B6.</p>
+<p>The lsits are all located in bank $8B, with the main table consisting of 2-byte addresses.</p>
+<p>All playable classes and Soldier have table pointers. However, Clerics and Dragons have piunters to empty tables due ot not being able to enter the arena.</p>
+</body>
+</html> 
