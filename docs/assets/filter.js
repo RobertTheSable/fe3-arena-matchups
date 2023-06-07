@@ -1,8 +1,15 @@
-function doFilter() {
+function filterList() {
+    let rngHidden = ($("button#showrng").attr("data-hidden") === "true");
+    let selector = "";
+    
+    if (rngHidden) {
+        selector += ".norng";
+    } else {
+        selector += ".rngdata";
+    }
     let plevel = $("#level").val();
     let bounty = $("#bounty").val();
     
-    var selector = "";
     if (plevel !== "") {
         selector += (".plevel-" + plevel);
     }
@@ -15,16 +22,6 @@ function doFilter() {
     }
     $("tbody.datarow").hide();
     $(selector).show();
-    return selector;
-}
-
-
-function filterList() {
-    let rngHidden = ($("button#showrng").attr("data-hidden") === "true");
-    let selector = doFilter();
-    if (rngHidden) {
-        $(".rngdata" + selector).hide()
-    }
 }
 
 function toggleRNG() {
@@ -35,10 +32,11 @@ function toggleRNG() {
         if (hidden) {
             $("button#showrng").text("Hide RNG Positions");
             $(".rngdata").show();
-            doFilter();
+            $(".norng").hide();
         } else {
             $("button#showrng").text("Show RNG Positions");
             $(".rngdata").hide();
+            $(".norng").show();
         }
         $("button#showrng").attr("disabled", false);
     }, 0);
