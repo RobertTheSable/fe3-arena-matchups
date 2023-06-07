@@ -1,12 +1,4 @@
-function filterList() {
-    let rngHidden = ($("button#showrng").attr("data-hidden") === "true");
-    let selector = "";
-    
-    if (rngHidden) {
-        selector += ".norng";
-    } else {
-        selector += ".rngdata";
-    }
+function doFilter(selector) {
     let plevel = $("#level").val();
     let bounty = $("#bounty").val();
     
@@ -24,6 +16,18 @@ function filterList() {
     $(selector).show();
 }
 
+function filterList() {
+    let rngHidden = ($("button#showrng").attr("data-hidden") === "true");
+    let selector = "";
+    
+    if (rngHidden) {
+        selector += ".norng";
+    } else {
+        selector += ".rngdata";
+    }
+    doFilter(selector);
+}
+
 function toggleRNG() {
     $("button#showrng").attr("disabled", true);
     setTimeout(function() {
@@ -33,10 +37,12 @@ function toggleRNG() {
             $("button#showrng").text("Hide RNG Positions");
             $(".rngdata").show();
             $(".norng").hide();
+            filterList(".rngdata");
         } else {
             $("button#showrng").text("Show RNG Positions");
             $(".rngdata").hide();
             $(".norng").show();
+            filterList(".norng");
         }
         $("button#showrng").attr("disabled", false);
     }, 0);
