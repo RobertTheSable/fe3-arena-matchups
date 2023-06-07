@@ -1,4 +1,4 @@
-function filterList() {
+function doFilter() {
     let plevel = $("#level").val();
     let bounty = $("#bounty").val();
     
@@ -10,24 +10,38 @@ function filterList() {
         selector += (".bounty-" + bounty);
     }
     if (selector === "") {
-        $("tr.datarow").show();
+        $("tbody.datarow").show();
         return;
     }
-    $("tr.datarow").hide();
+    $("tbody.datarow").hide();
     $(selector).show();
+    return selector;
+}
+
+
+function filterList() {
+    let rngHidden = ($("button#showrng").attr("data-hidden") === "true");
+    let selector = doFilter();
+    if (rngHidden) {
+        $(".rngdata" + selector).hide()
+    }
 }
 
 function toggleRNG() {
-    var hidden = ($(this).attr("data-hidden") === "true");
-    console.log(hidden);
-    $(this).attr("data-hidden", !hidden);
-    if (hidden) {
-        $(this).text("Hide RNG Positions");
-        $(".rngdata").show()
-    } else {
-        $(this).text("Show RNG Positions");
-        $(".rngdata").hide()
-    }
+    $("button#showrng").attr("disabled", true);
+    setTimeout(function() {
+        var hidden = ($("button#showrng").attr("data-hidden") === "true");
+        $("button#showrng").attr("data-hidden", !hidden);
+        if (hidden) {
+            $("button#showrng").text("Hide RNG Positions");
+            $(".rngdata").show();
+            doFilter();
+        } else {
+            $("button#showrng").text("Show RNG Positions");
+            $(".rngdata").hide();
+        }
+        $("button#showrng").attr("disabled", false);
+    }, 0);
 }
 
 $( document ).ready(function() {
